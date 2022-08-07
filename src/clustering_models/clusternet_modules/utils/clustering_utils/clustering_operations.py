@@ -28,7 +28,7 @@ def init_mus_and_covs(codes, K, how_to_init_mu, logits, use_priors=True, prior=N
             labels = torch.from_numpy(kmeans.labels_)
             kmeans_mus = torch.from_numpy(kmeans.cluster_centers_)
         else:
-            labels, kmeans_mus = GPU_KMeans(X=codes.detach(), num_clusters=K, device=device)
+            labels, kmeans_mus = GPU_KMeans(X=codes.detach(), num_clusters=K, device="cpu")
         _, counts = torch.unique(labels, return_counts=True)
         pi = counts / float(len(codes))
         data_covs = compute_data_covs_hard_assignment(labels, codes, K, kmeans_mus.cpu(), prior)
